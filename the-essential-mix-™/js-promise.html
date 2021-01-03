@@ -1,7 +1,6 @@
 <!--
    Daniel Zamudio
-   NOTE: In some cases this code will not run exactly as-is.
-   The inention above all was to practice and save notes.
+   NOTE: This code will not run exactly as-is.
 -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -16,7 +15,7 @@
 
 
    const executor = (resolve, reject) => {
-      setTimeout(() => resolve("complete"), 1000);
+      setTimeout(() => resolve("complete executor"), 1000);
    };
    /* Promise() is part of Web Workers API 
       For more info: 
@@ -29,17 +28,37 @@
    // Another example of how to use Promise()
    // Old way by passing functions to a function...
    function successCallback(result) {
-      console.log("Audio file ready at URL: " + result);
+      console.log("L2A");
+      console.log(doSomethingElse);
+      console.log("success: " + result);
    }
    function failureCallback(error) {
-      console.error("Error generationg audio file: " + error);
+      console.log("L2B");
+      console.log(doSomethingElse);
+      //console.error("error: " + error);
    }
-   createAudioFileAsync(audioSettings, successCallback, failureCallback);
+   function doSomething(){
+      console.log("doing something...");
+   }
+   let doSomethingElse = new Promise(function(successCallback, failureCallback){
+      return ('good','bad');
+      // setTimeout( () => successCallback('completed this one...'), 2000);
+      // to simulate failure
+      // setTimeout( () => failureCallback('fail'), 2000);
+      //failureCallback('bad');
+   });
+   doSomethingElse.then(
+      successCallback('good2'),
+      failureCallback('bad2')
+   );
+   console.log("L1");
+   console.log(doSomethingElse);
+   // createAudioFileAsync(audioSettings, successCallback, failureCallback);
    // Modern method using Promise()
-   createAudioFileAsync(audioSettings).then(successCallback, failureCallback);
+   // createAudioFileAsync(audioSettings).then(successCallback, failureCallback);
    // shorthand for....
-   # const promise = createAudioFileAsync(audioSettings);
-   promise.then(successCallback, failureCallback);
+   // const promise = createAudioFileAsync(audioSettings);
+   // promise.then(successCallback, failureCallback);
 
    /**
     * The value of Promise is:
@@ -55,11 +74,74 @@
    // Promise chain
    // Two or more asynchronous operations back-to-back
    // each operation starts when the previous operation succeeds.
-   const promise = doSomething();
-   const promise2 = promise.then(successCallback, failureCallback);
+   //const promise = doSomething;
+   //const promise2 = promise.then(successCallback, failureCallback);
    // or
-   const promise2 = doSomething().then(successCallback, failureCallback);
+   // const promise2 = doSomething().then(successCallback, failureCallback);
    
+   let promiseAgain = new Promise(function(resolve, reject) {
+      // executor (producing code) runs automatically
+      setTimeout(() => resolve("done"), 3000);
+      // error example
+      //setTimeout(() => reject(new Error("Whoops!")), 3000);
+   }).then(
+      /* If you're only interested in the successfull
+         completions, you may only suply one func arg. 
+         If you're only interested in errors, you may
+         pass null as the first func arg.
+         */
+      function(result) { 
+         /* handle successful resolve */
+         console.log("pA result: "+result);
+      },
+      function(error) { 
+         /* handle an error */
+         console.log("pA error: "+error);
+      }
+   );
+   // The above is equivalent to:
+   let promiseAgain2 = new Promise( function(resolve, reject) {
+      setTimeout( () => resolve("done2"), 4000);
+   });
+   promiseAgain2.then(
+      function() { console.log("Then execution"); }
+   );
+   /* You can use Promise.then() to focus on success. Or
+      Promise.catch() to focus on errors. */
+   // Use finally() to execute code regardless of result.
+   promiseAgain2.finally(
+      /* there are no arguments, literally because it's finally. */
+      /* this is a good place for cleanup, stop/load indicators. */
+      function() { console.log("Finally after any result."); }
+   );
+   
+   /* Here's an example in a real use-case when loading a large script */
+   // create the producing/loading code...
+   function loadScript(src) {
+      return new Promise(function(resolve, reject) {
+         let script = document.createElement('script');
+         script.src = src;
+         
+         script.onload = () => resolve(script);
+         script.onerror = () => reject(new Error(`Script load error for ${src}`));
+         
+         document.head.append(script);
+      });
+   }
+   // Usage...
+   let promise4 = loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js');
+   promise4.then(
+      script => alert(`${script.src} is loaded.`),
+      error => alert(`Error: ${error.message}`)
+   );
+   promise4.then(script => alert('you can add multiple then()s fyi'));
+   /* Promise based patterns are much more flexible and easier to modify.
+      You can compartmentalize easily and modify individual steps. 
+      In callback pattern, you have to manually call the callback, 
+      which means you must know what to do with the result before the 
+      loadScript is called. AND callbacks force you to a template, there
+      can only be one callback unlike chaining then()s. */
+   console.info("For more info: https://javascript.info/promise-basics");
    </script>
 </head>
 
