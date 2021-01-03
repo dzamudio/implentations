@@ -1,7 +1,7 @@
 <!--
    Daniel Zamudio
-   Series of snippets I practiced from a series of "100 days of code" by Sifat Haque
-   Of the series, I chose to practice those that are most essential to any application.
+   NOTE: In some cases this code will not run exactly as-is.
+   The inention above all was to practice and save notes.
 -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-   <title>Essential JS Snippets</title>
+   <title>Promise | Worker APIs | JS</title>
    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
    <script type='text/javascript'>
      
@@ -38,7 +38,7 @@
    // Modern method using Promise()
    createAudioFileAsync(audioSettings).then(successCallback, failureCallback);
    // shorthand for....
-   const promise = createAudioFileAsync(audioSettings);
+   # const promise = createAudioFileAsync(audioSettings);
    promise.then(successCallback, failureCallback);
 
    /**
