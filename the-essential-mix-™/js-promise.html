@@ -1,0 +1,70 @@
+<!--
+   Daniel Zamudio
+   Series of snippets I practiced from a series of "100 days of code" by Sifat Haque
+   Of the series, I chose to practice those that are most essential to any application.
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+   <title>Essential JS Snippets</title>
+   <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+   <script type='text/javascript'>
+     
+
+
+   const executor = (resolve, reject) => {
+      setTimeout(() => resolve("complete"), 1000);
+   };
+   /* Promise() is part of Web Workers API 
+      For more info: 
+      - https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API 
+   */
+   new Promise(executor).then((result) => {
+      console.log(result);
+      // outputs "complete"
+   });
+   // Another example of how to use Promise()
+   // Old way by passing functions to a function...
+   function successCallback(result) {
+      console.log("Audio file ready at URL: " + result);
+   }
+   function failureCallback(error) {
+      console.error("Error generationg audio file: " + error);
+   }
+   createAudioFileAsync(audioSettings, successCallback, failureCallback);
+   // Modern method using Promise()
+   createAudioFileAsync(audioSettings).then(successCallback, failureCallback);
+   // shorthand for....
+   const promise = createAudioFileAsync(audioSettings);
+   promise.then(successCallback, failureCallback);
+
+   /**
+    * The value of Promise is:
+    * - Callbacks are never called before completion
+    * 	of the current event loop.
+    * - Callbacks are called even after the success
+    * 	or failure of the async operation.
+    * - Multiple callbacks can be added by calling
+    * 	then() several times. Each one executed 
+    * 	one after another, in the order in which 
+    * 	they were inserted.
+    */
+   // Promise chain
+   // Two or more asynchronous operations back-to-back
+   // each operation starts when the previous operation succeeds.
+   const promise = doSomething();
+   const promise2 = promise.then(successCallback, failureCallback);
+   // or
+   const promise2 = doSomething().then(successCallback, failureCallback);
+   
+   </script>
+</head>
+
+<body>
+	
+</body>
+
+</html>
