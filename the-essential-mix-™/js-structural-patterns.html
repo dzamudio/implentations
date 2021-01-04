@@ -46,10 +46,12 @@
          var log = "";
          return {
             add: function(msg) { log += msg + "\n"; },
-            show: function() { console.log(log); log = ""; }
+            show: function() { console.log(log); log = ""; },
+            reset: function() { log = ""; }
          }
       })();
       function runDecorator() {
+         log.reset();
          var user = new User("Dayana");
          user.say();
          var decorated = new DecoratedUser(user, 
