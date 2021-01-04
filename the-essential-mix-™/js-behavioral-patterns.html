@@ -1,7 +1,7 @@
 <!--
    Daniel Zamudio
    Behavioral Patterns in JavaScript (cheat sheet)
-   These improve communication between objects.
+   These improves communication between objects.
    
    NOTE: this is not intended to be run as-is. The
    intention here was to learn and take notes.
@@ -64,11 +64,13 @@
 	 
 	 return { 
 	    add: function(msg) { log += msg + "\n"; },
-	    show: function() { console.log(log); log = ""; }
+	    show: function() { console.log(log); log = ""; },
+	    reset: function() { log = ""; }
 	 }
       })();
       
-      function run() {
+      function runMediator() {
+	 log.reset();
 	 var yoko = new Participant("Yoko");
 	 var john = new Participant("John");
 	 var paul = new Participant("Paul");
@@ -105,9 +107,48 @@
       /* Command - creates objects which encapsulate actions and params.
       */
       
-      /* Observer - a way of notifying change to a number of classes
-	 to ensure consistency between them.
+      /* Observer aka Subscribe - a way of notifying change to a number 
+	 of classes to ensure consistency between them. (see event-
+	 driven programming)
       */
+      function Click() {
+	 this.handlers = []; // observers
+      }
+      Click.prototype = {
+	 subscribe: function(fn) {
+	    this.handlers.push(fn);
+	 },
+	 unsubscribe: function(fn) {
+	    this.handlers = this.handlers.filter(
+	       function(item) {
+		  if (item !== fn) {
+		     return item;
+		  }
+	       }
+	    );
+	 },
+	 fire: function(o, thisObj) {
+	    var scope = thisObj || window;
+	    this.handlers.forEach(function(item) {
+	       item.call(scope, o);
+	    });
+	 }
+      }
+      function runObserver() {
+	 log.reset();
+	 var clickHandler = function(item) {
+	    log.add("fired: " + item);
+	 };
+	 var click = new Click();
+	 click.subscribe(clickHandler);
+	 click.fire('event #1');
+	 click.unsubscribe(clickHandler);
+	 click.fire('event #2');
+	 click.subscribe(clickHandler);
+	 click.fire('event #3');
+	 log.show();
+      }
+	 
       
       /* Strategy - define a family of algorithms, encapsulate each one,
 	 and make them interchangeable.
@@ -135,7 +176,22 @@
 </head>
 
 <body>
-   
+   <script type='text/javascript'>
+      // Run button for Mediator
+      element = document.createElement("input");
+      element.type = 'button';
+      element.value = 'runMediator';
+      element.id = 'runMediator';
+      element.setAttribute('onclick', "runMediator()");
+      document.body.appendChild(element);
+      // Run button for Observer
+      element = document.createElement("input");
+      element.type = 'button';
+      element.value = 'runObserver';
+      element.id = 'runObserver';
+      element.setAttribute('onclick', "runObserver()");
+      document.body.appendChild(element);
+   </script>
 </body>
 
 </html>
