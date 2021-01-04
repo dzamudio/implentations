@@ -1,0 +1,129 @@
+<!--
+   Daniel Zamudio
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+   <title>Simple HTML TO-DO list.</title>
+   <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+   <style type='text/css'>
+      html, body {
+	 margin: 0;
+	 padding: 0;
+	 border: none;
+      }
+      body {
+	 background: #ebf2f8;
+	 font-family: 'karla', sans-serif;
+      }
+      .tasks {
+	 width: 300px;
+	 height: 405px;
+	 position: absolute;
+	 top: 20%;
+	 left: 0px;
+	 right: 0px;
+	 margin: 0px auto;
+      }
+      input[type=checkbox] {
+	 display: none;
+      }
+      label {
+	 background: #040C3A;
+	 height: 70px;
+	 width: 100%;
+	 display: block;
+	 color: #fff;
+	 box-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+	 text-transform: capitalize;
+	 font-weight: 900;
+	 font-size: 11px;
+	 letter-spacing: 1px;
+	 text-indent: 20px;
+	 cursor: pointer;
+	 transition: all 0.7s ease;
+	 position: relative;
+	 padding: 5px;
+	 box-sizing: border-box;
+	 border-radius: 4px;
+	 margin: 10px 0;
+      }
+      label h2 span {
+	 display: block;
+	 font-size: 13px;
+	 text-transform: capitalize;
+	 font-weight: 600;
+	 color: #FF4A7B;
+	 margin-top: 5px;
+      }
+      label:before {
+	 content: "";
+	 width: 20px;
+	 height: 20px;
+	 background: #fff;
+	 display: block;
+	 position: absolute;
+	 border-radius: 100%;
+	 right: 20px;
+	 top: 30%;
+	 transition: border 0.7s ease;
+      }
+      #label-1:checked ~ label[for=label-1],
+      #label-2:checked ~ label[for=label-2],
+      #label-3:checked ~ label[for=label-3],
+      #label-4:checked ~ label[for=label-4],
+      #label-5:checked ~ label[for=label-5],
+      #label-6:checked ~ label[for=label-6] {
+	 background: #FF4A7B;
+	 color: #fff;
+      }
+      #label-1:checked ~ label[for=label-1] h2 span,
+      #label-2:checked ~ label[for=label-2] h2 span,
+      #label-3:checked ~ label[for=label-3] h2 span,
+      #label-4:checked ~ label[for=label-4] h2 span,
+      #label-5:checked ~ label[for=label-5] h2 span,
+      #label-6:checked ~ label[for=label-6] h2 span {
+	 color: #040C3A;
+      }
+      #label-1:checked ~ label[for=label-1]:before,
+      #label-2:checked ~ label[for=label-2]:before,
+      #label-3:checked ~ label[for=label-3]:before,
+      #label-4:checked ~ label[for=label-4]:before,
+      #label-5:checked ~ label[for=label-5]:before,
+      #label-6:checked ~ label[for=label-6]:before {
+	 background: url("img/check.png") no-repeat center center;
+	 background-size: cover;
+      }
+      
+	 
+   </style>
+   <script type='text/javascript'>
+      
+   </script>
+</head>
+
+<body>
+   <div class='tasks'>
+      <input id='label-1' type='checkbox'/>
+      <label for='label-1'>
+	 <h2>Lorem Ipsum Dolor Est.<span>It consequet &ampl por li.</span></h2>
+      </label>
+      <input id='label-2' type='checkbox'/>
+      <label for='label-2'>
+	 <h2>Lorem Ipsum Dolor Est.<span>It consequet &ampl por li.</span></h2>
+      </label>
+      <input id='label-3' type='checkbox'/>
+      <label for='label-3'>
+	 <h2>Lorem Ipsum Dolor Est.<span>It consequet &ampl por li.</span></h2>
+      </label>
+      <input id='label-4' type='checkbox'/>
+      <label for='label-4'>
+	 <h2>Lorem Ipsum Dolor Est.<span>It consequet &ampl por li.</span></h2>
+      </label>
+   </div>
+</body>
+
+</html>
