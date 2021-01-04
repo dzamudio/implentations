@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Binary Trees Search Implementation</title>
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+		<style type="text/css">
+			body,html{
+				margin: .7em;
+				padding: 0;
+			}
+			*{
+				font-family: sans-serif;
+				font-weight: normal;
+			}
+		</style>
+		<script type="text/javascript">
+			// TreeNode class
+			class TreeNode {
+				constructor(value) {
+					this.value = value
+					this.parent = null // parent node
+					this._left = null // left child
+					this._right = null // right child
+				}
+				get left() {
+					return this._left;
+				}
+				set left(node) {
+					this._left = node;
+					if (node) node.parent = this;
+				}
+				get right() {
+						return this._right;
+				}
+				set right(node) {
+					this._right = node;
+					if (node) node.parent = this;
+				}
+			}
+			// Binary Search Tree class
+			class BinarySearchTree {
+				constructor() {
+					this.root = null;
+				}
+				// find node with a value in a tree
+				find (value) {
+					let node = this.root;
+					let parent;
+					while (node) {
+						if (value === node.value) break;
+						parent = node;
+						node = value > node.value ? node.right : node.left;
+					}
+					return { node, parent }
+				}
+				// return boolean on find() method result
+				contains (value) {
+					const { node } = this.find(value);
+					return !!node
+				}
+				// add new node to a tree
+				add (value) {
+					const newNode = new TreeNode(value)
+					if (!this.root) {
+						this.root = newNode
+					} else { 
+						let { node, parent } = this.find(value)
+						if (!node) {
+							if (value < parent.value) {
+								parent.left = newNode
+							} else {
+								parent.right = newNode
+							}
+						}
+					}
+					return this
+				}
+				// find node with the minimum value
+				findMin (node = this.root) {
+					while (node.left) { node = node.left }
+					return node
+				}
+				// find node with the maximum value
+				findMax (node = this.root) {
+						while (node.right) { node = node.right }
+						return node
+				}
+				// remove node from parent
+				removeFromParent (node) {
+					if (node.parent.left === node) {
+						node.parent.left = null
+					} else {
+						node.parent.right = null
+					}
+				}
+				// remove node from a tree
+				remove (value) {
+					let { node } = this.find(value)
+					if(node){
+						if (!node.left && !node.right) {
+							this.removeFromParent(node)
+						} else if (!node.left) {
+							node = node.right
+						} else if (!node.right) {
+							node = node.left
+						} else {
+							let temp = this.findMin(node.right)
+							node.value = temp.value
+							this.removeFromParent(temp)
+						}	
+					}
+					return this
+				}
+				// custom print method
+				print () {
+					const nodes = []
+					const recursion = (node, tmp) => {
+						if(node.value) nodes.push(`${tmp} ${node.value}`)
+						if(node.left) recursion(node.left, '.    ' + tmp)
+						if(node.right) recursion(node.right, '.    ' + tmp)
+					}
+					// calls dfs recursion function on the root mode
+					recursion(this.root, '↳')
+					// print in console
+					nodes.forEach(el => console.log(el))
+				}
+			}
+			
+			
+			// USAGE TEST
+			const tree = new BinarySearchTree()
+			// add nodes to the tree
+			tree.add(50).add(70).add(30).add(20).add(40).add(60).add(80).add(15).add(25).add(35).add(45).add(55).add(65).add(75).add(90)
+			// check contains() method
+			console.log(tree.contains(45)) // shoiuld be true
+			console.log(tree.contains(1)) // should be false
+			// find node with minimum value
+			tree.findMin() // should be 15 (lowest value)
+			tree.findMax() // should be 90 (highest value)
+			
+			tree.print()
+			// remove some nodes from the tree
+			tree.remove(15).remove(40).remove(70).remove(50)
+			console.log("---after deletions operation 15,40,70,50---");
+			// print nodes in the tree dude
+			tree.print()
+			// ... see console
+		</script>
+	</head>
+	
+	<body>
+		<h1>DT1</h1>
+		<h4>Binary Trees Implentation from Coding with Anna Lessons: 1/2/3</h4>
+	</body>
+</html>
