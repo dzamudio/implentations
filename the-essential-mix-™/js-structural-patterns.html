@@ -54,9 +54,7 @@
          log.reset();
          var user = new User("Dayana");
          user.say();
-         var decorated = new DecoratedUser(user, 
-                                          "State Street", 
-                                          "Chicago");
+         var decorated = new DecoratedUser(user, "State Street", "Chicago");
          decorated.say();
          log.show();
       }
@@ -67,9 +65,28 @@
       */
       
       /* Chain of responsibility - a way of passing a request be-
-	 tween a chain of objects to find the object that can handle
-	 the request.
+         tween a chain of objects to find the object that can handle
+         the request. This pattern here will loosely resemble Promise().
+         See js-promise.html if you need guaranteed then/catch/finally
       */
+      var Request = function(amount) {
+         log.reset();
+         this.amount = amount;
+         log.add("Requested: $" + amount + "\n");
+      }
+      Request.prototype = {
+         get: function(bill) {
+            var count = Math.floor(this.amount / bill);
+            this.amount -= count * bill;
+            log.add("Dispense " + count + " $" + bill + " bills");
+            return this;
+         }
+      }
+      function runCoR() {
+         var request = new Request(378);
+         request.get(100).get(50).get(20).get(10).get(5).get(1);
+         log.show();
+      }
       
       /* Bridge - separates an objects interface from its implentation
          so the two can vary independently.
@@ -95,11 +112,18 @@
    
    <script type='text/javascript'>
       // Run button for Decorator
-      let element = document.createElement("input");
+      element = document.createElement("input");
       element.type = 'button';
       element.value = 'runDecorator';
       element.id = 'runDecorator';
       element.setAttribute('onclick', "runDecorator()");
+      document.body.appendChild(element);
+      // Run button for Chain of Responsibility (Promise ISH)
+      element = document.createElement("input");
+      element.type = 'button';
+      element.value = 'runCoR';
+      element.id = 'runCoR';
+      element.setAttribute('onclick', "runCoR()");
       document.body.appendChild(element);
    </script>
 </body>
