@@ -19,15 +19,82 @@
    </style>
    <script type='text/javascript'>
       /* Mediator - define an object that encapsulates how a set of 
-	 objects interact.
+	 objects interact. (think decoupling from each other)
+	 Designate one class that is the sole responsibility of X.
+	 Use when there's too many direct relationships with other parts.
       */
+      var Participant = function(name) {
+	 this.name = name;
+	 this.chatroom = null;
+      };
+      
+      Participant.prototype = {
+	 send: function(message, to) {
+	    this.chatroom.send(message, this, to);
+	 },
+	 receive: function(message, from) {
+	    log.add(from.name + " to " + this.name + ": " + message);
+	 }
+      };
+      
+      var Chatroom = function() {
+	 var participants = {};
+	 return {
+	    register: function(participant) {
+	       participants[participant.name] = participant;
+	       participant.chatroom = this;
+	    },
+	    send: function(message, from, to) {
+	       if ( to ) {
+		  to.receive(message, from);
+	       } else {
+		  for (key in participants) {
+		     if (participants[key] !== from) {
+			participants[key].receive(message, from);
+		     }
+		  }
+	       }
+	    }
+	 };
+      };
+      
+      // log helper
+      var log = (function() {
+	 var log = "";
+	 
+	 return { 
+	    add: function(msg) { log += msg + "\n"; },
+	    show: function() { console.log(log); log = ""; }
+	 }
+      })();
+      
+      function run() {
+	 var yoko = new Participant("Yoko");
+	 var john = new Participant("John");
+	 var paul = new Participant("Paul");
+	 var ringo = new Participant("Ringo");
+	 
+	 var chatroom = new Chatroom();
+	 chatroom.register(yoko);
+	 chatroom.register(john);
+	 chatroom.register(paul);
+	 chatroom.register(ringo);
+	 
+	 yoko.send("I'm Yoko");
+	 john.send("I know");
+	 paul.send("k",yoko);
+	 ringo.send("k",yoko);
+	 
+	 log.show();
+      }
+      
       
       /* Iterator - Accesses the elements of an object sequentially
 	 without exposing its underlying representation.
       */
       
       /* Interpreter - A way to include language elements in an
-	 application to match teh grammar of the intended language.
+	 application to match the grammar of the intended language.
       */
       
       /* Chain of responsibility - a way of passing a request be-

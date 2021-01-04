@@ -37,15 +37,49 @@
          this prototype.
       */
       
-      /* Singleton - ensure a class only has one instance, and provide
-         global access points to it.
+      /* Singleton (module pattern) - ensure a class only has one 
+         instance, and provide global access points to it.
       */
+      var Singleton = (function () {
+         var instance;
+         function createInstance() {
+            var object = new Object("The Instance");
+            return object;
+         }
+         return {
+            getInstance: function () {
+               if (!instance) {
+                  instance = createInstance();
+               }
+               return instance;
+            }
+         };
+      })();
+      function runSingleton() {
+         var instance1 = Singleton.getInstance();
+         console.log("Instance1: ");
+         console.log(instance1);
+         var instance2 = Singleton.getInstance();
+         console.log("Instance2: ");
+         console.log(instance2);
+         
+         console.log( instance1 === instance2 ); // true
+      }
       
    </script>
 </head>
 
 <body>
    
+   <script type='text/javascript'>
+      // Run button for Singleton
+      let element = document.createElement("input");
+      element.type = 'button';
+      element.value = 'runSingleton';
+      element.id = 'runSingleton';
+      element.setAttribute('onclick', "runSingleton()");
+      document.body.appendChild(element);
+   </script>
 </body>
 
 </html>

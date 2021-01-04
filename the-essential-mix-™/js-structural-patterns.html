@@ -25,6 +25,39 @@
       /* Decorator - dynamically adds or overrides behavior in an
          existing method of an object (see Inheritance in any OOP)
       */
+      var User = function(name) {
+         this.name = name;
+         this.say = function() {
+            log.add("User: " + this.name);
+         };
+      }
+      var DecoratedUser = function(user, street, city) {
+         this.user = user;
+         this.name = user.name; // interface stays the same
+         this.street = street;
+         this.city = city;
+         this.say = function() {
+            log.add("Decorated User: " + this.name + ", " +
+                        this.street + ", " + this.city);
+         };
+      }
+      // logging helper
+      var log = (function() {
+         var log = "";
+         return {
+            add: function(msg) { log += msg + "\n"; },
+            show: function() { console.log(log); log = ""; }
+         }
+      })();
+      function runDecorator() {
+         var user = new User("Dayana");
+         user.say();
+         var decorated = new DecoratedUser(user, 
+                                          "State Street", 
+                                          "Chicago");
+         decorated.say();
+         log.show();
+      }
       
       /* Adapter - match interfaces of different classes therefore
          classes can work together despite incompatible interfaces.
@@ -58,6 +91,15 @@
 
 <body>
    
+   <script type='text/javascript'>
+      // Run button for Decorator
+      let element = document.createElement("input");
+      element.type = 'button';
+      element.value = 'runDecorator';
+      element.id = 'runDecorator';
+      element.setAttribute('onclick', "runDecorator()");
+      document.body.appendChild(element);
+   </script>
 </body>
 
 </html>
