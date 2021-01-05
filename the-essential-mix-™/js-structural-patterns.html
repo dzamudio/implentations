@@ -19,8 +19,71 @@
    </style>
    <script type='text/javascript'>
       /* Flyweight - reduces teh cost of creating and manipulating a 
-         large number of similar objects.
+         large number of similar objects. (Think complex array/list 
+         managed objects)
       */
+      function Flyweight (make, model, processor) {
+         this.make = make;
+         this.model 
+         this.processor = processor;
+      };
+      var FlyWeightFactory = (function () {
+         var flyweights = {};
+         return {
+            get: function (make, model, processor) {
+               if (!flyweights[make + model]) {
+                  flyweights[make + model] = new Flyweight(make, model, processor);
+               }
+               return flyweights[make + model];
+            },
+            getCount: function () {
+               var count = 0;
+               for (var f in flyweights) count++;
+               return count;
+            }
+         }
+      })();
+      function ComputerCollection () {
+         var computers = {};
+         var count = 0;
+         return {
+            add: function (make, model, processor, memory, tag) {
+               computers[tag] = 
+                     new Computer(make, model, processor, memory, tag);
+               count++;
+            },
+            get: function (tag) {
+               return computers[tag];
+            },
+            getCount: function () {
+               return count;
+            }
+         };
+      }
+      var Computer = function (make, model, processor, memory, tag) {
+         this.flyweight = FlyWeightFactory.get(make, model, processor);
+         this.memory = memory;
+         this.tag = tag;
+         this.getMake = function () {
+            return this.flyweight.make;
+         }
+         // ...
+      }
+      function runFlyWeight() {
+         log.reset();
+         var computers = new ComputerCollection();
+         computers.add("Dell", "Studio XPS", "Intel", "5G", "Y755P");
+         computers.add("Dell", "Studio XPS", "Intel", "5G", "X997T");
+         computers.add("Dell", "Studio XPS", "Intel", "5G", "U8U80");
+         computers.add("Dell", "Studio XPS", "Intel", "5G", "Z070E");
+         computers.add("Dell", "Studio XPS", "Intel", "5G", "Z4870");
+         computers.add("Dell", "Studio XPS", "Intel", "5G", "J088A");
+         computers.add("Dell", "Studio XPS", "Intel", "5G", "CNU70");
+         
+         log.add("Computers: " + computers.getCount());
+         log.add("Flyweights: " + FlyWeightFactory.getCount());
+         log.show();
+      }
       
       /* Decorator - dynamically adds or overrides behavior in an
          existing method of an object (see Inheritance in any OOP)
@@ -124,6 +187,13 @@
       element.value = 'runCoR';
       element.id = 'runCoR';
       element.setAttribute('onclick', "runCoR()");
+      document.body.appendChild(element);
+      // Run button for Chain of Responsibility (Promise ISH)
+      element = document.createElement("input");
+      element.type = 'button';
+      element.value = 'runFlyWeight';
+      element.id = 'runFlyWeight';
+      element.setAttribute('onclick', "runFlyWeight()");
       document.body.appendChild(element);
    </script>
 </body>
