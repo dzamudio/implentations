@@ -1,0 +1,74 @@
+<!--
+   Daniel Zamudio
+   From Tutorial: https://www.instagram.com/codecrookshanks/
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+   <title>Swirl Loading Animation</title>
+   <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <style type="text/css">
+	   * {
+		   margin: 0;
+		   padding: 0;
+		   box-sizing: border-box;
+		   background: #000;
+		  }
+		body {
+			min-height: 100vh;
+			display: grid;
+			place-items: center;
+		}
+		.wavy {
+			position: relative;
+			width: 250px;
+			height: 250px;
+			border-radius: 50%;
+			overflow:hidden;
+		}
+		.wavy span {
+			position: absolute;
+			top: calc(12px * var(--i));
+			left: calc(12px * var(--i));
+			right: calc(12px * var(--i));
+			bottom: calc(12px * var(--i));
+			border: 10px solid #2f2f2f;
+			border-top: 10px solid white;
+			border-left: 10px solid white;
+			border-radius: 50%;
+			animation: wavy 2.5s alternate infinite;
+			animation-delay: calc(0.15s * var(--i));
+		}
+		@keyframes wavy {
+			0% {
+				transform: rotate(0deg);
+			}
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+		
+   </style>
+</head>
+
+<body>
+   <div class="wavy">
+	<span style="--i:0;"></span>
+	<span style="--i:1;"></span>
+	<span style="--i:2;"></span>
+	<span style="--i:3;"></span>
+	<span style="--i:4;"></span>
+	<span style="--i:5;"></span>
+	<span style="--i:6;"></span>
+	<span style="--i:7;"></span>
+   </div>
+   
+   <script type='text/javascript'>
+      
+   </script>
+</body>
+
+</html>
