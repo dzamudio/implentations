@@ -41,15 +41,33 @@ class Node:
     
     # in-order traversal
     def inOrderTraversal(self, root):
-        pass
+        """ left subtree, root, then right subtree"""
+        res = []
+        if root:
+            res = self.inOrderTraversal(root.left)
+            res.append(root.data)
+            res = res + self.inOrderTraversal(root.right)
+        return res
     
     # pre-order traversal
     def preOrderTraversal(self, root):
-        pass
+        """ root, left, right"""
+        res = []
+        if root:
+            res.append(root.data)
+            res = res + self.preOrderTraversal(root.left)
+            res = res + self.preOrderTraversal(root.right)
+        return res
     
     # post-order traversal
     def postOrderTraversal(self, root):
-        pass
+        """ left, right, root"""
+        res = []
+        if root:
+            res = self.postOrderTraversal(root.left)
+            res = res + self.postOrderTraversal(root.right)
+            res.append(root.data)
+        return res
     
     def PrintTree(self):
         if self.left:
@@ -70,4 +88,15 @@ root.insert(19)
 print(root.find(7))
 print(root.find(19))
 
+DZ.line("inOrderTraversal")
+print(root.inOrderTraversal(root))
+
+DZ.line("preOrderTraversal")
+print(root.preOrderTraversal(root))
+
+DZ.line("postOrderTraversal")
+print(root.postOrderTraversal(root))
+
 root.PrintTree()
+
+DZ.line("For use-cases visit: https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/")
