@@ -2,22 +2,42 @@
    Daniel Zamudio
    [This code is for refence and practice. may not run-as-is. why are you here?]
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-   <title>More on Promises | JS</title>
-   <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-   <style type="text/css"></style>
-   <script type='text/javascript'>
-	
-   </script>
+    <title>More on Promises | JS</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style type="text/css"></style>
+    <script type='text/javascript'>
+        const firstPromise = new Promise((resolve, reject) => {
+            setTimeout(() => reject(), 1000);
+        });
+
+        const secondPromise = new Promise((resolve, reject) => {
+            setTimeout(() => reject(), 2000);
+        });
+
+        const thirdPromise = new Promise((resolver, reject) => {
+            setTimeout(() => reject(), 3000);
+        });
+
+        (async () => {
+            try {
+                await Promise.any([firstPromise, secondPromise, thirdPromise]);
+                // Any of the promises was fulfilled.
+            } catch (error) {
+                console.log(error.message);
+                // All promises were rejected
+            }
+        })();
+
+    </script>
 </head>
 
 <body>
-   <script type='text/javascript'></script>
+    <script type='text/javascript'></script>
 </body>
 
 </html>
