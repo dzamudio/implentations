@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👮‍ Constraint Validation API, sir</title>
+    <style type="text/css">
+    	* {
+    		font-family: Helvetica, Arial, sans-serif;
+    		color: #858585;
+    	}
+    	html:focus-within {
+    		scroll-behavior: smooth;
+    	}
+    	.flex-container {
+    		display: flex;
+    	}
+    	.auto {
+    		flex: auto;
+    	}
+    	.item {
+    		margin: 1em;
+    	}
+    	.parent{
+    		height: 300px;
+    		display: flex;
+    	}
+    	.child{
+    		margin: auto;
+    		background: #9cc0f0;
+    		width: 100px;
+    		height: 100px;
+    		color: white;
+    	}
+    </style>
+</head>
+<body oncontextmenu="return false">
+    
+	<div class="parent">
+		<div class="child">child</div>
+	</div>
+
+
+	<div style="">
+
+		<!-- Gauges with <meter> element. -->
+		<div class="flex-container">
+
+			<div class="item auto">
+				<form>
+					<input type="text" name="name" id="name" required pattern="[A-Za-z]+"><input type="submit">
+				</form>
+			</div>
+
+		</div>
+
+		<div class="flex-container">
+
+			<div class="item auto"></div>
+
+		</div>
+
+		<div class="flex-container">
+
+			<div class="item auto">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat ultrices mauris, sed convallis metus mattis in. Donec ac metus vel tellus cursus fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ligula neque, sodales molestie lacinia molestie, laoreet sed neque. In cursus mauris odio, eu ornare purus malesuada non. Aenean non nisl magna. Ut volutpat fringilla nisl nec varius. Phasellus lobortis maximus mauris.</p>
+			</div>
+
+		</div>
+
+		<!--
+			Trick for a repeating background image (or sprite)...
+			Instead of risking to crop part of an image or pattern,
+			use "round" in background-repeat: round; it rounds to the more logical display.
+		-->
+
+	</div>
+
+
+
+
+    <script type="text/javascript">
+    	
+    	const nameInput = document.getElementById('name');
+
+    	nameInput.addEventListener("input", () => {
+    		console.log("input changed");
+    		nameInput.setCustomValidity('');
+    		nameInput.checkValidity(); // this seems to fire only submit
+    		// nameInput.reportValidity(); // fires before submit
+    	});
+
+    	// set custom validation message
+    	nameInput.addEventListener("invalid", () => {
+    		console.log("invalid input detected = " + nameInput.value);
+    		if(nameInput.value === '') {
+    			nameInput.setCustomValidity('Enter your username!');
+    		} else {
+    			nameInput.setCustomValidity('Usernames can only contain upper and lower letters.')
+    		}
+    	});
+
+    </script>
+</body>
+</html>
