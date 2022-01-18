@@ -6,101 +6,305 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>👮‍ Constraint Validation API, sir</title>
     <style type="text/css">
-    	* {
-    		font-family: Helvetica, Arial, sans-serif;
-    		color: #858585;
-    	}
-    	html:focus-within {
-    		scroll-behavior: smooth;
-    	}
-    	.flex-container {
-    		display: flex;
-    	}
-    	.auto {
-    		flex: auto;
-    	}
-    	.item {
-    		margin: 1em;
-    	}
-    	.parent{
-    		height: 300px;
-    		display: flex;
-    	}
-    	.child{
-    		margin: auto;
-    		background: #9cc0f0;
-    		width: 100px;
-    		height: 100px;
-    		color: white;
-    	}
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+        * {
+            font-family: 'Roboto', Helvetica, sans-serif;
+            color: #858585;
+        }
+
+        body, button, input, select, textarea {
+            -moz-font-feature-settings: "kern";
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1.heading {
+            font-weight: 500;
+            color: black;
+            font-size: 1.8em;
+        }
+
+        html:focus-within {
+            scroll-behavior: smooth;
+        }
+
+        label {
+            color: #606060;
+            font-size: 0.8em;
+        }
+
+        input.classic {
+            /*background: #f2f7ff;*/
+            border: 1px solid #c3dcff;
+            border-radius: 4px;
+            color: black;
+            padding: 0.3em;
+            min-width: 17em;
+        }
+
+        .form-textbox {
+            position: relative;
+            /*background: red;*/
+        }
+
+        input.modern {
+            font-size: 1em;
+            border: 1px solid #d2d2d7;
+            border-radius: 12px;
+            padding: 24px 16px 9px 12px;
+            color: #1e1e1e;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        input.modern + span.form-textbox-label {
+            animation-name: fieldLabelActive;
+            animation-duration: 0.2s;
+            animation-play-state: paused;
+            animation-fill-mode: forwards;
+        }
+        input.modern:focus, input.modern:focus-visible {
+            border: 1px solid blue;
+        }
+        input.modern:focus + span.form-textbox-label,
+        input.modern:focus-visible + span.form-textbox-label{
+            animation-play-state: running;
+        }
+
+        @keyframes fieldLabelActive {
+            from {
+                top: 17px;
+                left: 11px;
+                font-size: 1em;
+            }
+            to {
+                top: 10px;
+                left: 13px;
+                font-size: 0.8em;
+            }
+        }
+
+        .form-textbox-label {
+            position: absolute;
+            top: 17px;
+            left: 11px;
+            color: #818181;
+            font-size: 1em;
+            font-weight: 400;
+        }
+
+        .flex-container {
+            display: flex;
+        }
+
+        .auto {
+            flex: auto;
+        }
+
+        .item {
+            margin: 1em;
+        }
+
+        .parent2 {
+            height: 300px;
+            display: flex;
+        }
+
+        .child2 {
+            margin: auto;
+            background: #9cc0f0;
+            width: 100px;
+            height: 100px;
+            color: white;
+        }
+
+        .formChild {
+            margin: auto;
+            width: auto;
+            height: auto;
+            color: black;
+        }
+
+        /* flex container */
+        .parent {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: no-wrap;
+            /*flex-flow:  row nowrap;*/
+            justify-content: start;
+            /*background: #adadad;*/
+            padding: 10px 0px;
+        }
+
+        /* flex child */
+        .child {
+            /*order:  0;*/
+            /*flex-grow:  0;*/
+            /*flex-shrink:  1;*/
+            /*flex-basis: auto;*/
+            /*align-self: auto;*/
+
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: 0;
+            /*flex:  1 1 0px;*/ /*shorthand for flex-grow, flex-shrink, and flex-basis*/
+
+            text-align: left;
+            padding: 0px 0px 0px 0px;
+
+            /*background: #d7d7d7;*/
+        }
     </style>
 </head>
-<body oncontextmenu="return false">
-    
-	<div class="parent">
-		<div class="child">child</div>
-	</div>
+<body <!--oncontextmenu="return false"-->
+
+<div class="parent2">
+    <div class="child2">child</div>
+    <div class="child2">child</div>
+    <div class="child2">child</div>
+    <div class="child2">child</div>
+</div>
 
 
-	<div style="">
+<div style="">
 
-		<!-- Gauges with <meter> element. -->
-		<div class="flex-container">
+    <!-- Gauges with <meter> element. -->
+    <h1>Basic Classical Form</h1>
+    <form name="formTest1">
+        <div class="grand-parent">
+            <div class="parent">
+                <div class="child"><label for="name">Name</label></div>
+                <div class="child"><input class="classic" type="text" name="name" id="name" required
+                                          pattern="[A-Za-z]+"></div>
+            </div>
+            <div class="parent">
+                <div class="child"><label for="email">Email</label></div>
+                <div class="child"><input class="classic" type="email" name="email" id="email" required
+                                          pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/"></div>
+            </div>
+            <div class="parent">
+                <div class="child"><label for="ID">ID</label></div>
+                <div class="child"><input class="classic" type="text" name="ID" id="ID" required pattern="[0-9]{7}">
+                </div>
+            </div>
+            <div class="parent">
+                <div class="child"><label for="password">Password</label></div>
+                <div class="child"><input class="classic" type="password" name="password" id="password" required
+                                          pattern="[.]{7,12}"></div>
+            </div>
+            <div class="parent">
+                <div class="child"><label for="passwordVerify">Verify Password</label></div>
+                <div class="child"><input class="classic" type="password" name="passwordVerify" id="passwordVerify"
+                                          required pattern="[.]{7,12}"></div>
+            </div>
+            <div class="parent">
+                <div class="child"></div>
+                <div class="child"><input class="classic" type="submit"></div>
+            </div>
+        </div>
+    </form>
 
-			<div class="item auto">
-				<form>
-					<input type="text" name="name" id="name" required pattern="[A-Za-z]+"><input type="submit">
-				</form>
-			</div>
+    <h1 class="heading">Having trouble signing in?</h1>
+    <form name="formTest2">
+        <div class="parent">
+            <div class="child">
+                <div class="form-textbox" id="formItemName2">
+                    <input class="modern" type="text" name="name2" id="name2" required pattern="[A-Za-z]+">
+                    <span class="form-textbox-label">Name</span>
+                </div>
+            </div>
+        </div>
+        <div class="parent">
+            <div class="child">
+                <div class="form-textbox" id="formItemEmail2">
+                    <input class="modern" type="email" name="email2" id="email2" required
+                           pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/">
+                    <span class="form-textbox-label">Email</span>
+                </div>
+            </div>
+        </div>
+    </form>
 
-		</div>
 
-		<div class="flex-container">
+    <div class="flex-container">
 
-			<div class="item auto"></div>
+        <div class="item auto"></div>
 
-		</div>
+    </div>
 
-		<div class="flex-container">
+    <div class="flex-container">
+        <div class="item auto">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat ultrices mauris, sed convallis metus
+                mattis in. Donec ac metus vel tellus cursus fringilla. Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit. Nam ligula neque, sodales molestie lacinia molestie, laoreet sed neque. In cursus
+                mauris odio, eu ornare purus malesuada non. Aenean non nisl magna. Ut volutpat fringilla nisl nec
+                varius. Phasellus lobortis maximus mauris.</p>
+        </div>
+    </div>
 
-			<div class="item auto">
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat ultrices mauris, sed convallis metus mattis in. Donec ac metus vel tellus cursus fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ligula neque, sodales molestie lacinia molestie, laoreet sed neque. In cursus mauris odio, eu ornare purus malesuada non. Aenean non nisl magna. Ut volutpat fringilla nisl nec varius. Phasellus lobortis maximus mauris.</p>
-			</div>
+    <div class="flex-container">
+        <div class="item auto">
+            
+        </div>
 
-		</div>
+    </div>
 
-		<!--
+    <!--
 			Trick for a repeating background image (or sprite)...
 			Instead of risking to crop part of an image or pattern,
 			use "round" in background-repeat: round; it rounds to the more logical display.
 		-->
 
-	</div>
+</div>
+
+
+<script type="text/javascript">
+
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const idInput = document.getElementById('ID');
+    const passwordInput = document.getElementById('password');
+    const passwordVerifyInput = document.getElementById('passwordVerify');
+
+    nameInput.addEventListener("input", () => {
+        console.log("input changed");
+        nameInput.setCustomValidity('');
+        nameInput.checkValidity(); // this seems to fire only submit
+        // nameInput.reportValidity(); // fires before submit
+    });
+
+    // set custom validation message
+    nameInput.addEventListener("invalid", () => {
+        console.log("invalid input detected = " + nameInput.value);
+        if (nameInput.value === '') {
+            nameInput.setCustomValidity('Enter your username!');
+        } else {
+            nameInput.setCustomValidity('Usernames can only contain upper and lower letters.')
+        }
+    });
+
+    const modernNameInput = document.getElementById('name2');
+    const modernEmailInput = document.getElementById('email2');
+    modernNameInput.addEventListener("focus", () => {
+        console.log("<INPUT> FOCUS on #name2");
+    });
+    modernEmailInput.addEventListener("focus", () => {
+        console.log("<INPUT> FOCUS on #email2");
+    });
+
+    // formItemName2 | formItemEmail2
+    const divName2 = document.getElementById('formItemName2');
+    const divEmail2 = document.getElementById('formItemEmail2');
+    divName2.addEventListener("click", () => {
+        console.log("<DIV> FOCUS on #formItemName2");
+    });
+    divEmail2.addEventListener("focus", () => {
+        console.log("<DIV> FOCUS on #formItemEmail2");
+    });
 
 
 
-
-    <script type="text/javascript">
-    	
-    	const nameInput = document.getElementById('name');
-
-    	nameInput.addEventListener("input", () => {
-    		console.log("input changed");
-    		nameInput.setCustomValidity('');
-    		nameInput.checkValidity(); // this seems to fire only submit
-    		// nameInput.reportValidity(); // fires before submit
-    	});
-
-    	// set custom validation message
-    	nameInput.addEventListener("invalid", () => {
-    		console.log("invalid input detected = " + nameInput.value);
-    		if(nameInput.value === '') {
-    			nameInput.setCustomValidity('Enter your username!');
-    		} else {
-    			nameInput.setCustomValidity('Usernames can only contain upper and lower letters.')
-    		}
-    	});
-
-    </script>
+</script>
 </body>
 </html>
